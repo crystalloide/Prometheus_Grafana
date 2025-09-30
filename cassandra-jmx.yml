@@ -1,6 +1,7 @@
 # Configuration JMX Exporter pour Apache Cassandra 5.0
 # Cette configuration expose les métriques JMX de Cassandra au format Prometheus
 
+hostPort: "cassandra11:7199"
 startDelaySeconds: 0
 ssl: false
 lowercaseOutputName: false

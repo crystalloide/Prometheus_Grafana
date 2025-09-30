@@ -26,9 +26,12 @@ services:
     - CASSANDRA_NATIVE_TRANSPORT_PORT=9042
     - MAX_HEAP_SIZE=256m
     - HEAP_NEWSIZE=50m
+    - LOCAL_JMX=no
+    - JVM_EXTRA_OPTS=-Djava.rmi.server.hostname=192.168.100.111 -Dcom.sun.management.jmxremote.authenticate=false
     ports:
     - 7100:7000
     - 9142:9042
+    - 7111:7199
     healthcheck:
       test:
       - CMD-SHELL
@@ -63,9 +66,12 @@ services:
     - CASSANDRA_NATIVE_TRANSPORT_PORT=9042
     - MAX_HEAP_SIZE=256m
     - HEAP_NEWSIZE=50m
+    - LOCAL_JMX=no
+    - JVM_EXTRA_OPTS=-Djava.rmi.server.hostname=192.168.100.112 -Dcom.sun.management.jmxremote.authenticate=false
     ports:
     - 7200:7000
     - 9242:9042
+    - 7122:7199
     healthcheck:
       test:
       - CMD-SHELL
@@ -100,9 +106,12 @@ services:
     - CASSANDRA_NATIVE_TRANSPORT_PORT=9042
     - MAX_HEAP_SIZE=256m
     - HEAP_NEWSIZE=50m
+    - LOCAL_JMX=no
+    - JVM_EXTRA_OPTS=-Djava.rmi.server.hostname=192.168.100.113 -Dcom.sun.management.jmxremote.authenticate=false
     ports:
     - 7300:7000
     - 9342:9042
+    - 7133:7199
     healthcheck:
       test:
       - CMD-SHELL
@@ -137,9 +146,12 @@ services:
     - CASSANDRA_NATIVE_TRANSPORT_PORT=9042
     - MAX_HEAP_SIZE=256m
     - HEAP_NEWSIZE=50m
+    - LOCAL_JMX=no
+    - JVM_EXTRA_OPTS=-Djava.rmi.server.hostname=192.168.100.121 -Dcom.sun.management.jmxremote.authenticate=false
     ports:
     - 7400:7000
     - 9442:9042
+    - 7211:7199
     healthcheck:
       test:
       - CMD-SHELL
@@ -174,9 +186,12 @@ services:
     - CASSANDRA_NATIVE_TRANSPORT_PORT=9042
     - MAX_HEAP_SIZE=256m
     - HEAP_NEWSIZE=50m
+    - LOCAL_JMX=no
+    - JVM_EXTRA_OPTS=-Djava.rmi.server.hostname=192.168.100.122 -Dcom.sun.management.jmxremote.authenticate=false
     ports:
     - 7500:7000
     - 9542:9042
+    - 7222:7199
     healthcheck:
       test:
       - CMD-SHELL
@@ -211,9 +226,12 @@ services:
     - CASSANDRA_NATIVE_TRANSPORT_PORT=9042
     - MAX_HEAP_SIZE=256m
     - HEAP_NEWSIZE=50m
+    - LOCAL_JMX=no
+    - JVM_EXTRA_OPTS=-Djava.rmi.server.hostname=192.168.100.123 -Dcom.sun.management.jmxremote.authenticate=false
     ports:
     - 7600:7000
     - 9642:9042
+    - 7233:7199
     healthcheck:
       test:
       - CMD-SHELL
