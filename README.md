@@ -29,3 +29,9 @@ docker compose -f docker-compose-linux down -v
 * Prometheus: http://localhost:9090
 * Grafana: http://localhost:3000 (admin/admin123)
 * JMX Exporter: http://localhost:8080/metrics
+
+### Template Grafana : 
+* https://grafana.com/grafana/dashboards/10849-cassandra-dashboard/
+
+## Image Conteneur Cassandra officielle :
+* https://hub.docker.com/_/cassandra
