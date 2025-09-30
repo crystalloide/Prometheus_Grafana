@@ -13,14 +13,14 @@ docker compose -f docker-compose-linux down -v
 
 # URL : 
 
-## Ecosystème et Accès aux services:
+## Ecosystème et Accès aux services  :
 
-### - Cassandra Datacenter Nord:
+### - Cassandra : Datacenter Nord :
 * cassandra11: localhost:9142
 * cassandra12: localhost:9242 
 * cassandra13: localhost:9342
 
-### - Cassandra Datacenter Terres-de-la-Couronne:
+### - Cassandra : Datacenter Terres-de-la-Couronne :
 * cassandra21: localhost:9442
 * cassandra22: localhost:9542
 * cassandra23: localhost:9642
