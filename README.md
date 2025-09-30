@@ -25,7 +25,8 @@ docker compose -f docker-compose-linux down -v
 * cassandra22: localhost:9542
 * cassandra23: localhost:9642
 
-### - Monitoring:"
+### - Monitoring:
+* Port JMX cassandra : 7199
 * Prometheus: http://localhost:9090
 * Grafana: http://localhost:3000 (admin/admin123)
 * JMX Exporter: http://localhost:8080/metrics
