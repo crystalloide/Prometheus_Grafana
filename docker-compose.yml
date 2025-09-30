@@ -1,0 +1,213 @@
+networks:
+  cassandra_network:
+    ipam:
+      config:
+        - subnet: 192.168.100.0/24
+
+services:
+  cassandra11:
+    image: docker.io/bitnami/cassandra:5.0
+    hostname: cassandra11
+    container_name: cassandra11
+    mem_limit: 1g
+    cpus: 0.5
+    restart: always
+    networks:
+      cassandra_network:
+        ipv4_address: 192.168.100.111
+    volumes:
+      - "C:\\docker\\cassandra11:/bitnami"
+    environment:
+      - CASSANDRA_CLUSTER_NAME=formation
+      - CASSANDRA_SEEDS=cassandra11,cassandra21
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - CASSANDRA_DATACENTER=Nord
+      - CASSANDRA_RACK=Winterfell1
+      - CASSANDRA_BROADCAST_RPC_ADDRESS=192.168.100.111
+      - CASSANDRA_NATIVE_TRANSPORT_PORT=9042
+      - MAX_HEAP_SIZE=256m
+      - HEAP_NEWSIZE=50m  
+    ports:
+      - "7100:7000"    
+      - "9142:9042"
+    healthcheck:
+      test: ["CMD-SHELL", "[ $$(nodetool -h 127.0.0.1 -pw cassandra -u cassandra statusgossip) = running ]"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+  cassandra12:
+    depends_on:
+      cassandra11:
+        condition: service_healthy
+    image: docker.io/bitnami/cassandra:5.0
+    hostname: cassandra12
+    container_name: cassandra12
+    mem_limit: 1g
+    cpus: 0.5
+    restart: always
+    networks:
+      cassandra_network:
+        ipv4_address: 192.168.100.112
+    volumes:
+      - "C:\\docker\\cassandra12:/bitnami"
+    environment:
+      - CASSANDRA_CLUSTER_NAME=formation
+      - CASSANDRA_SEEDS=cassandra11,cassandra21
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - CASSANDRA_DATACENTER=Nord
+      - CASSANDRA_RACK=Winterfell2
+      - CASSANDRA_BROADCAST_RPC_ADDRESS=192.168.100.112
+      - CASSANDRA_NATIVE_TRANSPORT_PORT=9042
+      - MAX_HEAP_SIZE=256m
+      - HEAP_NEWSIZE=50m  
+    ports:
+      - "7200:7000"    
+      - "9242:9042"
+    healthcheck:
+      test: ["CMD-SHELL", "[ $$(nodetool -h 127.0.0.1 -pw cassandra -u cassandra statusgossip) = running ]"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+  cassandra13:
+    depends_on:
+      cassandra12:
+        condition: service_healthy
+    image: docker.io/bitnami/cassandra:5.0
+    hostname: cassandra13
+    container_name: cassandra13
+    mem_limit: 1g
+    cpus: 0.5
+    restart: always
+    networks:
+      cassandra_network:
+        ipv4_address: 192.168.100.113
+    volumes:
+      - "C:\\docker\\cassandra13:/bitnami"
+    environment:
+      - CASSANDRA_CLUSTER_NAME=formation
+      - CASSANDRA_SEEDS=cassandra11,cassandra21
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - CASSANDRA_DATACENTER=Nord
+      - CASSANDRA_RACK=Winterfell3
+      - CASSANDRA_BROADCAST_RPC_ADDRESS=192.168.100.113
+      - CASSANDRA_NATIVE_TRANSPORT_PORT=9042
+      - MAX_HEAP_SIZE=256m
+      - HEAP_NEWSIZE=50m  
+    ports:
+      - "7300:7000"    
+      - "9342:9042"
+    healthcheck:
+      test: ["CMD-SHELL", "[ $$(nodetool -h 127.0.0.1 -pw cassandra -u cassandra statusgossip) = running ]"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+      
+  cassandra21:
+    depends_on:
+      cassandra13:
+        condition: service_healthy  
+    image: docker.io/bitnami/cassandra:5.0
+    hostname: cassandra21
+    container_name: cassandra21
+    mem_limit: 1g
+    cpus: 0.5
+    restart: always
+    networks:
+      cassandra_network:
+        ipv4_address: 192.168.100.121
+    volumes:
+      - "C:\\docker\\cassandra21:/bitnami"
+    environment:
+      - CASSANDRA_CLUSTER_NAME=formation
+      - CASSANDRA_SEEDS=cassandra11,cassandra21
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - CASSANDRA_DATACENTER=Terres-de-la-Couronne
+      - CASSANDRA_RACK=Port-Real1
+      - CASSANDRA_BROADCAST_RPC_ADDRESS=192.168.100.121
+      - CASSANDRA_NATIVE_TRANSPORT_PORT=9042
+      - MAX_HEAP_SIZE=256m
+      - HEAP_NEWSIZE=50m  
+    ports:
+      - "7400:7000"    
+      - "9442:9042"
+    healthcheck:
+      test: ["CMD-SHELL", "[ $$(nodetool -h 127.0.0.1 -pw cassandra -u cassandra statusgossip) = running ]"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+  cassandra22:
+    depends_on:
+      cassandra21:
+        condition: service_healthy  
+    image: docker.io/bitnami/cassandra:5.0
+    hostname: cassandra22
+    container_name: cassandra22
+    mem_limit: 1g
+    cpus: 0.5
+    restart: always
+    networks:
+      cassandra_network:
+        ipv4_address: 192.168.100.122
+    volumes:
+      - "C:\\docker\\cassandra22:/bitnami"
+    environment:
+      - CASSANDRA_CLUSTER_NAME=formation
+      - CASSANDRA_SEEDS=cassandra11,cassandra21
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - CASSANDRA_DATACENTER=Terres-de-la-Couronne
+      - CASSANDRA_RACK=Port-Real2
+      - CASSANDRA_BROADCAST_RPC_ADDRESS=192.168.100.122
+      - CASSANDRA_NATIVE_TRANSPORT_PORT=9042
+      - MAX_HEAP_SIZE=256m
+      - HEAP_NEWSIZE=50m  
+    ports:
+      - "7500:7000"    
+      - "9542:9042"
+    healthcheck:
+      test: ["CMD-SHELL", "[ $$(nodetool -h 127.0.0.1 -pw cassandra -u cassandra statusgossip) = running ]"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+  cassandra23:
+    depends_on:
+      cassandra22:
+        condition: service_healthy  
+    image: docker.io/bitnami/cassandra:5.0
+    hostname: cassandra23
+    container_name: cassandra23
+    mem_limit: 1g
+    cpus: 0.5
+    restart: always
+    networks:
+      cassandra_network:
+        ipv4_address: 192.168.100.123
+    volumes:
+      - "C:\\docker\\cassandra23:/bitnami"
+    environment:
+      - CASSANDRA_CLUSTER_NAME=formation
+      - CASSANDRA_SEEDS=cassandra11,cassandra21
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - CASSANDRA_DATACENTER=Terres-de-la-Couronne
+      - CASSANDRA_RACK=Port-Real3
+      - CASSANDRA_BROADCAST_RPC_ADDRESS=192.168.100.123
+      - CASSANDRA_NATIVE_TRANSPORT_PORT=9042
+      - MAX_HEAP_SIZE=256m
+      - HEAP_NEWSIZE=50m  
+    ports:
+      - "7600:7000"    
+      - "9642:9042"
+    healthcheck:
+      test: ["CMD-SHELL", "[ $$(nodetool -h 127.0.0.1 -pw cassandra -u cassandra statusgossip) = running ]"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 60s

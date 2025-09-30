@@ -1,0 +1,104 @@
+# Configuration JMX Exporter pour Apache Cassandra 5.0
+# Cette configuration expose les métriques JMX de Cassandra au format Prometheus
+
+startDelaySeconds: 0
+ssl: false
+lowercaseOutputName: false
+lowercaseOutputLabelNames: false
+
+# Règles de transformation des métriques JMX vers Prometheus
+rules:
+
+# === MÉTRIQUES GÉNÉRALES ===
+- pattern: org.apache.cassandra.metrics<type=(.*)><>Value
+  name: cassandra_$1
+  type: GAUGE
+  help: "Cassandra metric $1"
+
+- pattern: org.apache.cassandra.metrics<type=(.*), name=(.*)><>Value
+  name: cassandra_$1_$2
+  type: GAUGE
+  help: "Cassandra $1 metric: $2"
+
+# === MÉTRIQUES PAR KEYSPACE ===
+- pattern: org.apache.cassandra.metrics<type=(.*), keyspace=(.*), name=(.*)><>Value
+  name: cassandra_$1_$3
+  type: GAUGE
+  labels:
+    keyspace: "$2"
+  help: "Cassandra $1 metric $3 for keyspace $2"
+
+# === MÉTRIQUES PAR KEYSPACE ET TABLE ===
+- pattern: org.apache.cassandra.metrics<type=(.*), keyspace=(.*), scope=(.*), name=(.*)><>Value
+  name: cassandra_$1_$4
+  type: GAUGE
+  labels:
+    keyspace: "$2"
+    table: "$3"
+  help: "Cassandra $1 metric $4 for keyspace $2 table $3"
+
+# === MÉTRIQUES DE LECTURE/ÉCRITURE (ClientRequest) ===
+- pattern: org.apache.cassandra.metrics<type=ClientRequest, scope=(Read|Write), name=(Latency|Timeouts|Failures|Unavailables)><>(Count|Mean|95thPercentile|99thPercentile)
+  name: cassandra_clientrequest_$2_$3
+  type: GAUGE
+  labels:
+    operation: "$1"
+    quantile: "$3"
+  help: "Cassandra client request $2 for $1 operations"
+
+# === MÉTRIQUES DE COMPACTION ===
+- pattern: org.apache.cassandra.metrics<type=Compaction, name=(.*)><>Value
+  name: cassandra_compaction_$1
+  type: GAUGE
+  help: "Cassandra compaction metric: $1"
+
+# === MÉTRIQUES DE CACHE ===
+- pattern: org.apache.cassandra.metrics<type=Cache, scope=(.*), name=(.*)><>Value
+  name: cassandra_cache_$2
+  type: GAUGE
+  labels:
+    cache_type: "$1"
+  help: "Cassandra cache metric $2 for cache type $1"
+
+# === MÉTRIQUES DE STORAGE ===
+- pattern: org.apache.cassandra.metrics<type=Storage, name=(.*)><>Value
+  name: cassandra_storage_$1
+  type: GAUGE
+  help: "Cassandra storage metric: $1"
+
+# === MÉTRIQUES DE THREAD POOLS ===
+- pattern: org.apache.cassandra.metrics<type=ThreadPools, path=(.*), scope=(.*), name=(.*)><>Value
+  name: cassandra_threadpools_$3
+  type: GAUGE
+  labels:
+    pool_type: "$1"
+    pool_name: "$2"
+  help: "Cassandra thread pool metric $3 for pool $1/$2"
+
+# === MÉTRIQUES DE STREAMING ===
+- pattern: org.apache.cassandra.metrics<type=Streaming, name=(.*)><>Value
+  name: cassandra_streaming_$1
+  type: GAUGE
+  help: "Cassandra streaming metric: $1"
+
+# === MÉTRIQUES DE COMMIT LOG ===
+- pattern: org.apache.cassandra.metrics<type=CommitLog, name=(.*)><>Value
+  name: cassandra_commitlog_$1
+  type: GAUGE
+  help: "Cassandra commit log metric: $1"
+
+# === MÉTRIQUES JVM (optionnel) ===
+- pattern: java.lang<type=Memory><(.*)>(.*)
+  name: cassandra_jvm_memory_$2
+  type: GAUGE
+  labels:
+    memory_type: "$1"
+  help: "JVM memory metric $2 for $1"
+
+- pattern: java.lang<type=GarbageCollector, name=(.*)><(.*)>(.*)
+  name: cassandra_jvm_gc_$3
+  type: GAUGE
+  labels:
+    gc_name: "$1"
+    gc_type: "$2"
+  help: "JVM garbage collection metric $3 for $1 $2"
